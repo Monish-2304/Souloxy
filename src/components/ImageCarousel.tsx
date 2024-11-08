@@ -26,11 +26,11 @@ const ImageCarousel = ({ images, texts }: ImageCarousel) => {
     const firstPart = parts[0];
     const remainingPart = parts.slice(1).join(",");
     return (
-      <>
-        <strong className="text-2xl text-[#4C614E]">{firstPart}</strong>
+      <div className="leading-7">
+        <strong className="text-2xl text-[#4C614E] ">{firstPart}</strong>
         <br />
-        <span className="font-light text-xl text-[#4C614E]">{remainingPart}</span>
-      </>
+        <span className="font-light text-md text-[#4C614E] ">{remainingPart}</span>
+      </div>
     );
   };
 
