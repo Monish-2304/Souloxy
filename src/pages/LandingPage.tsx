@@ -39,6 +39,13 @@ const SolutionCard: React.FC<SolutionCardProps> = ({ imgSrc, title, description 
 
 const LandingPage = () => {
   const navigate = useNavigate();
+  const handleLogin = () => {
+    navigate("/auth", { state: { isLogin: "login" } });
+  };
+
+  const handleSignup = () => {
+    navigate("/auth", { state: { isLogin: "signup" } });
+  };
 
   // States to handle button clicks and dynamic content
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
@@ -96,12 +103,16 @@ const LandingPage = () => {
   ];
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: "#FEFFF5" }}>
-      <div className="mx-auto flex justify-between items-center space-x-2">
+    <div className=" flex justify-between items-center space-x-2">
+      {/* <h2>Landing Page</h2> */}
+     
+    <div className="min-h-screen " style={{ backgroundColor: "#FEFFF5" }}>
+      <div className="mx-auto flex flex-col justify-around items-center space-x-4 md:flex-row">
         <Header />
-        <div className="pr-20">
-          <Button className="bg-[#4B624D]" onClick={() => navigate("/auth")}>Login</Button>
-        </div>
+        <div className="flex space-x-4 mt-6">
+        <Button onClick={handleLogin} className="bg-[#4B624D]">Login</Button>
+        <Button onClick={handleSignup}className="bg-[#4B624D]">SignUp</Button>
+      </div>
       </div>
 
       {/* Carousel Section */}
@@ -110,7 +121,7 @@ const LandingPage = () => {
       </div>
 
       {/* Launching Soon Section */}
-      <div className="flex flex-col p-6 md:flex-row bg-[#D8EDD4] w-full h-auto  mt-40 rounded-3xl w-[90%] mx-auto ">
+      <div className="flex flex-col p-6 md:flex-row bg-[#D8EDD4] w-full h-auto  mt-40 rounded-3xl md:w-[90%] mx-auto ">
         <div className="w-full p-1 md:w-[50%] md:p-10">
           <p><strong>We're almost live!<br />Our platform is launching soon.<br /></strong>Want to be the first to know when we launch? Share your contact details and we’ll send you an exclusive invite!</p>
           <div className="relative w-fit h-fit"><input placeholder="Email / Phone No." className="mt-10 px-8 py-6 h-10 rounded-md bg-[#F8F7F2]" />
@@ -146,7 +157,7 @@ const LandingPage = () => {
         <strong>Solutions</strong>
       </div>
 
-      <div className="grid grid-cols-2 w-full mt-14 gap-x-4 md:flex md:justify-center w-[90%] mx-auto">
+      <div className="grid grid-cols-2 w-full mt-14 gap-x-4 md:flex md:justify-center md:w-[90%] mx-auto">
         {solutions.map((solution) => (
           <SolutionCard key={solution.title} {...solution} />
         ))}
@@ -155,10 +166,10 @@ const LandingPage = () => {
       {/* About us */}
       <div className="flex flex-col items-center md:m-12">
         <div className="text-xl text-[#4C614E] text-center mt-14 md:text-3xl"><strong>About us</strong></div>
-        <div className="text-[8px] text-[#4C614E] text-center mt-6 w-[80%] md:text-xl md:mt-10">Our mission is to help individuals lead a fulfilling life by fostering awareness and careof their mental well-being with the help of technology and science of psychology.</div>
+        <div className="text-[12px] text-[#4C614E] text-center mt-6 w-[80%] md:text-xl md:mt-10">Our mission is to help individuals lead a fulfilling life by fostering awareness and careof their mental well-being with the help of technology and science of psychology.</div>
         <div className="flex items-center justify-around mt-10 w-full gap-x-8 md:mt-16">
           <img src={aboutUsImage} className="w-[50%] rounded-3xl"></img>
-          <div className="text-[7.5px] text-[#4C614E]  w-[50%] md:text-xl">At Souloxy, we are passionate about revolutionizing mental and emotional well-being through the power of technology.<br /><br />
+          <div className="text-[11px] text-[#4C614E]  w-[50%] md:text-xl">At Souloxy, we are passionate about revolutionizing mental and emotional well-being through the power of technology.<br /><br />
             Our team is made up of mental health professionals, AI experts, and visionary technologists, all dedicated to creating a platform that provides personalized support, education, and care for everyone, anytime, anywhere</div>
         </div>
       </div>
@@ -204,9 +215,9 @@ const LandingPage = () => {
 
 
       {/* Footer souloxy info */}
-      <div className="flex justify-around">
+      <div className="flex flex-col md:flex-row justify-around">
           {/* col 1 */}
-          <div className="flex flex-col w-[40%]">
+          <div className="flex flex-col w-[90%] md:w-[50%]">
             {/* 1row1 */}
             <div>
               <img src={soulOxyLogo} className="w-32 h-34 pl-10 ml-10 mt-10"></img>
@@ -217,9 +228,10 @@ const LandingPage = () => {
             </div>
           </div>
            {/* col 2 */}
-           <div className="flex flex-col justify-around gap-4">
+           {/* <div className="flex flex-row items-center w-[75%] sm:mx-auto md:flex-col md:justify-around md:w-[20%]  gap-4"> */}
+           <div className="flex flex-row items-center self-center md:flex-col md:justify-around md:w-[20%] gap-4">
             {/* 2row1 */}
-            <div className="text-[#4C614E] text-lg mt-16">
+            <div className="text-[#4C614E] text-sm md:text-lg md:mt-16">
             Quick Links
             </div>
             {/* 2row2 */}
@@ -235,7 +247,7 @@ const LandingPage = () => {
              {/* col 3 */}
           <div className="flex flex-col ">
             {/* 3row1 */}
-            <div className="text-[#4C614E] text-lg mt-16">
+            <div className="w-[72%] mx-auto text-[#4C614E] text-md mt-10 md:text-lg md:mt-16 md:w-full">
             Contact Us<br />
             {/* Email us at <a href="info@souloxy.com" className="underline-offset-1 decoration-solid">info@souloxy.com</a> */}
             Email us at <a href="mailto:info@souloxy.com" className="underline decoration-solid decoration-[#4C614E]">info@souloxy.com</a>
@@ -247,6 +259,7 @@ const LandingPage = () => {
             </div>
             </div>
       </div>
+    </div>
     </div>
   );
 };

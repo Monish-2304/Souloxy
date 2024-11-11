@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,27 +15,29 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { ArrowLeft, Eye, EyeOff } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 
-const emailOrPhonePattern = z.string().refine(
-  (value) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const phoneRegex = /^\d{10}$/;
-    return emailRegex.test(value) || phoneRegex.test(value);
-  },
-  {
-    message: "Must be a valid email or a 10-digit phone number",
-  }
-);
-const formSchema = z.object({
-  email: emailOrPhonePattern,
-  password: z.string().min(4).max(16),
-  confirmPassword: z.string().min(4).max(16),
-});
-const SignUp = () => {
+import { emailOrPhonePattern } from "@/lib/regexPatterns";
+
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setAuthView } from "@/redux/slices/authSlice";
+
+const formSchema = z
+  .object({
+    email: emailOrPhonePattern,
+    password: z.string().min(4).max(16),
+    confirmPassword: z.string().min(4).max(16),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+
+const SignUp: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -43,40 +47,43 @@ const SignUp = () => {
       confirmPassword: "",
     },
   });
-  const navigate = useNavigate();
-  function onSubmit(values: z.infer<typeof formSchema>) {
+
+  const handleSubmit = (values: z.infer<typeof formSchema>) => {
     console.log(values);
-  }
+    dispatch(setAuthView("verifyOtp"));
+  };
+
   return (
-    <div className="relative w-full py-6 md:pt-12 md:pb-4 pl-12 pr-8 ">
-      <ArrowLeft
-        onClick={() => navigate("/")}
-        color="black"
-        className="absolute top-[3.3rem] md:top-[4.8rem] cursor-pointer"
-        size={36}
-      />
-      <div className="mt-5 w-full   ">
-        <h3 className="my-6 text-center text-[1.8rem] font-bold">
-          Create An Account
+    <div className="relative w-full py-2 md:py-6 md:pt-12 md:pb-4 md:pl-12 md:pr-8 ">
+      <div className="relative flex items-center justify-center w-full">
+        <ArrowLeft
+          onClick={() => {
+            navigate("/");
+          }}
+          color="black"
+          className="absolute left-1 md:left-0 cursor-pointer"
+          size={28}
+        />
+        <h3 className="text-center text-lg md:text-[1.8rem] font-bold">
+          Create Account
         </h3>
       </div>
-
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="px-2 w-full space-y-3 "
+          onSubmit={form.handleSubmit(handleSubmit)}
+          className="mt-4 lg:mt-16 px-2 w-full space-y-3 "
         >
           <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
-              <FormItem className=" space-y-2">
-                <FormLabel className="font-normal text-base">
+              <FormItem className="space-y-2">
+                <FormLabel className="font-normal text-sm">
                   Email Address/ Phone No
                 </FormLabel>
                 <FormControl>
                   <Input
-                    className=" bg-[#D9E8D5] px-6 pb-6 pt-10 text-base border-b-[1px] border-black border-l-transparent border-r-transparent border-t-transparent rounded-xl"
+                    className="p-2 bg-[#D9E8D5] md:px-6 md:pb-6 md:pt-10 text-xs md:text-base border-b-[1px] border-black border-l-transparent border-r-transparent border-t-transparent rounded-xl"
                     placeholder="Enter Your Email Address/ Phone No"
                     {...field}
                   />
@@ -90,22 +97,20 @@ const SignUp = () => {
             name="password"
             render={({ field }) => (
               <FormItem className="space-y-2">
-                <FormLabel className="font-normal text-base">
-                  Password
-                </FormLabel>
+                <FormLabel className="font-normal text-sm">Password</FormLabel>
                 <FormControl>
                   <div className="relative">
                     <Input
                       type={showPassword ? "text" : "password"}
-                      className="bg-[#D9E8D5] px-6 pb-6 pt-10 text-base border-b-[1px] border-black border-l-transparent border-r-transparent border-t-transparent rounded-xl"
+                      className="p-2 bg-[#D9E8D5] md:px-6 md:pb-6 md:pt-10 text-xs md:text-base border-b-[1px] border-black border-l-transparent border-r-transparent border-t-transparent rounded-xl"
                       placeholder="Create Strong Password"
                       {...field}
                     />
                     <span
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute  bottom-4 right-4 flex items-center cursor-pointer text-gray-500"
+                      className="absolute bottom-2 right-2  md:bottom-4 md:right-4 flex items-center cursor-pointer text-gray-500"
                     >
-                      {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                     </span>
                   </div>
                 </FormControl>
@@ -119,14 +124,14 @@ const SignUp = () => {
             name="confirmPassword"
             render={({ field }) => (
               <FormItem className="space-y-2">
-                <FormLabel className="font-normal text-base">
+                <FormLabel className="font-normal text-sm">
                   Confirm Password
                 </FormLabel>
                 <FormControl>
                   <div className="relative">
                     <Input
                       type={showConfirmPassword ? "text" : "password"}
-                      className="bg-[#D9E8D5] px-6 pb-6 pt-10 text-base border-b-[1px] border-black border-l-transparent border-r-transparent border-t-transparent rounded-xl"
+                      className="p-2 bg-[#D9E8D5] md:px-6 md:pb-6 md:pt-10 text-xs md:text-base border-b-[1px] border-black border-l-transparent border-r-transparent border-t-transparent rounded-xl"
                       placeholder="Confirm Password"
                       {...field}
                     />
@@ -134,12 +139,12 @@ const SignUp = () => {
                       onClick={() =>
                         setShowConfirmPassword(!showConfirmPassword)
                       }
-                      className="absolute bottom-4 right-4 flex items-center cursor-pointer text-gray-500"
+                      className="absolute bottom-2 right-2  md:bottom-4 md:right-4 flex items-center cursor-pointer text-gray-500"
                     >
                       {showConfirmPassword ? (
-                        <EyeOff size={20} />
+                        <EyeOff size={18} />
                       ) : (
-                        <Eye size={20} />
+                        <Eye size={18} />
                       )}
                     </span>
                   </div>
@@ -150,15 +155,23 @@ const SignUp = () => {
           />
           <div className=" w-full flex justify-center">
             <Button
-              className="mt-3 w-[58%] py-9 text-xl font-semibold bg-[#4C614E] rounded-full"
+              className="mt-3 w-[40%] py-2 md:py-6 lg:py-9 text-base font-semibold bg-[#4C614E] rounded-full"
               type="submit"
             >
               Proceed
             </Button>
           </div>
           <div className="mt-2 flex justify-center space-x-2">
-            <p className="font-normal">Already have an account?</p>
-            <span className="text-[#4C614E] border-b-[1px] border-[#4C614E]  cursor-pointer">
+            <p className="text-sm md:text-base font-normal">
+              Already have an account?
+            </p>
+            <span
+              className="text-sm md:text-base text-[#4C614E] border-b-[1px] border-[#4C614E]  cursor-pointer"
+              onClick={() => {
+                dispatch(setAuthView("login"));
+                navigate("/auth", { state: { isLogin: "login" } });
+              }}
+            >
               Login
             </span>
           </div>
