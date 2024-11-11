@@ -26,11 +26,13 @@ interface SolutionCardProps {
 }
 
 const SolutionCard: React.FC<SolutionCardProps> = ({ imgSrc, title, description }) => (
-  <div className="w-60 mt-10 ml-10 h-auto bg-[#D8EDD4] hover:bg-[#C2D8BE] rounded-3xl">
+  <div className="w-full mt-6 bg-[#D8EDD4] hover:bg-[#C2D8BE] rounded-3xl p-4 md:p-8 md:mt-10">
     <div className="flex flex-col justify-items-center justify-center">
-      <img src={imgSrc} className="w-[80%] h-40 m-5 center rounded-md border-black-500 border-2" alt={title} />
-      <div className="text-[#4C614E] ml-6"><strong>{title}</strong></div>
-      <div className="text-[#4C614E] m-6">{description}</div>
+      <div className="w-full"><img src={imgSrc} className="w-full max-h-32 center rounded-md border-black-500 border-2" alt={title} /></div>
+      <div className="w-full mt-3">
+      <div className="text-[#4C614E] text-xs md:text-sm"><strong>{title}</strong></div>
+      <div className="text-[#4C614E] text-xs md:text-sm">{description}</div>
+      </div>
     </div>
   </div>
 );
@@ -57,7 +59,7 @@ const LandingPage = () => {
     }
   };
 
- 
+
   const images = [image1, image2, image3];
 
   const texts = [
@@ -108,64 +110,69 @@ const LandingPage = () => {
       </div>
 
       {/* Launching Soon Section */}
-      <div className="flex bg-[#D8EDD4] w-[75vw] h-80 mx-auto mt-40 rounded-3xl">
-        <div className="w-80 p-10 relative">
+      <div className="flex flex-col p-6 md:flex-row bg-[#D8EDD4] w-full h-auto  mt-40 rounded-3xl w-[90%] mx-auto ">
+        <div className="w-full p-1 md:w-[50%] md:p-10">
           <p><strong>We're almost live!<br />Our platform is launching soon.<br /></strong>Want to be the first to know when we launch? Share your contact details and we’ll send you an exclusive invite!</p>
-          <input placeholder="Email / Phone No." className="mt-10 px-8 py-6 h-10 rounded-md bg-[#F8F7F2]" />
-          <button className="absolute right-12 top-[77.8%] transform -translate-y-1/2 bg-[#B4D2B6] text-black px-3 py-2 rounded-full">
+          <div className="relative w-fit h-fit"><input placeholder="Email / Phone No." className="mt-10 px-8 py-6 h-10 rounded-md bg-[#F8F7F2]" />
+          <button className="absolute right-1 -bottom-4 transform -translate-y-1/2 bg-[#B4D2B6] text-black px-3 py-2 rounded-full ">
             <span className="text-md text-black"> &#8594;</span>
           </button>
+          </div>
         </div>
-
-        <div className="w-60 mt-10 ml-10 h-60 bg-[#F8F7F2] rounded-3xl">
-          <img src={decoration1} className="w-20 h-20 m-5" alt="Decoration" />
-          <img src={decoration11} className="ml-40 w-20 h-38 -mt-[6.25rem]" alt="Decoration" />
-          <p className="text-[11px] mt-2 mx-5 mb-0">In the meantime follow us on</p>
-          <div className="flex">
-            <img src={instagramLogo} className="w-10 h-10 mt-6 ml-8" alt="Instagram" />
-            <img src={linkedInLogo} className="w-10 h-9 mt-6 ml-10" alt="LinkedIn" />
+        <div className="flex w-full md:w-[50%] space-x-4">
+        <div className=" w-[50%] mt-10 bg-[#F8F7F2] rounded-3xl p-2 py-6 md:p-6">
+          <img src={decoration1} className="w-20 h-20" alt="Decoration" />
+          <p className="text-xs">In the meantime follow us on</p>
+          <div className="flex space-x-4">
+            <img src={instagramLogo} className="w-10 h-10 mt-6 " alt="Instagram" />
+            <img src={linkedInLogo} className="w-10 h-9 mt-6" alt="LinkedIn" />
           </div>
         </div>
 
-        <div className="w-60 mt-10 ml-20 h-60 bg-[#F8F7F2] rounded-3xl">
-          <img src={decoration2} className="w-20 h-20 m-5" alt="Decoration" />
-          <img src={decoration22} className="ml-40 w-20 h-38 -mt-[6.25rem]" alt="Decoration" />
-          <p className="text-[11px] mt-5 mx-5 mb-0">Want to make a difference?<br />Join us as an early app user or as a psychologist today!</p>
-          <button className="bg-[#B4D2B6] w-40 h-10 ml-8 mt-4 rounded-3xl text-black text-[14px]">Join us</button>
+        <div className="w-[50%] mt-10 bg-[#F8F7F2] rounded-3xl p-2 py-6 md:p-6">
+          <img src={decoration2} className="w-20 h-20" alt="Decoration" />
+          <p className="text-xs">Want to make a difference?<br />Join us as an early app user or as a psychologist today!</p>
+          <button className="bg-[#B4D2B6] p-2 mt-4 rounded-3xl text-black text-xs md:py-2 md:px-6">Join us</button>
+        </div>
         </div>
       </div>
 
+
+
+     
+
       {/* Solutions Section */}
-      <div className="text-3xl text-[#4C614E] text-center mt-14">
+      <div className="text-xl text-[#4C614E] text-center mt-14 md:text-3xl">
         <strong>Solutions</strong>
       </div>
 
-      <div className="flex w-98 justify-center mt-14">
+      <div className="grid grid-cols-2 w-full mt-14 gap-x-4 md:flex md:justify-center w-[90%] mx-auto">
         {solutions.map((solution) => (
           <SolutionCard key={solution.title} {...solution} />
         ))}
       </div>
 
       {/* About us */}
-      <div className="flex flex-col items-center">
-        <div className="text-3xl text-[#4C614E] text-center mt-14"><strong>About us</strong></div>
-        <div className="text-xl text-[#4C614E] text-center mt-10 w-[80%]">Our mission is to help individuals lead a fulfilling life by fostering awareness and careof their mental well-being with the help of technology and science of psychology.</div>
-        <div className="flex items-center justify-around mt-16 w-[80%]">
-          <img src={aboutUsImage} className="w-[39%]"></img>
-          <div className="text-md text-[#4C614E]  mt-10 w-[45%]">At Souloxy, we are passionate about revolutionizing mental and emotional well-being through the power of technology.<br /><br />
+      <div className="flex flex-col items-center md:m-12">
+        <div className="text-xl text-[#4C614E] text-center mt-14 md:text-3xl"><strong>About us</strong></div>
+        <div className="text-[8px] text-[#4C614E] text-center mt-6 w-[80%] md:text-xl md:mt-10">Our mission is to help individuals lead a fulfilling life by fostering awareness and careof their mental well-being with the help of technology and science of psychology.</div>
+        <div className="flex items-center justify-around mt-10 w-full gap-x-8 md:mt-16">
+          <img src={aboutUsImage} className="w-[50%] rounded-3xl"></img>
+          <div className="text-[7.5px] text-[#4C614E]  w-[50%] md:text-xl">At Souloxy, we are passionate about revolutionizing mental and emotional well-being through the power of technology.<br /><br />
             Our team is made up of mental health professionals, AI experts, and visionary technologists, all dedicated to creating a platform that provides personalized support, education, and care for everyone, anytime, anywhere</div>
         </div>
       </div>
 
       {/* Join us Form as a user or psychologist */}
-      <div className="mt-20 h-[36rem] relative" style={{
+      <div className="mt-10 h-[36rem] relative md:mt-20 " style={{
         backgroundImage: "url('/src/assets/JoinUsBg.jpg')",
         backgroundPosition: "center 70%",
-         backgroundRepeat: "no-repeat"
+         backgroundRepeat: "no-repeat",
+         backgroundSize: "cover"
       }}>
-        <div className="bg-white/70 absolute top-[5rem] left-[9rem] w-[40%] h-auto p-5 rounded-3xl">
-          <div className="text-2xl">Join Us</div>
-          <div className="mt-4 text-md">We invite you to join us in our mission to enhance mental wellness. Whether you're a user eager to test our app and share your feedback or a psychologist interested in collaborating with us, your participation is invaluable.</div>
+        <div className="bg-white/70 absolute top-[7%] left-[1%] w-fit  rounded-3xl md:p-5 md:top-[5rem] md:left-[9rem] md:w-[40%]">
+          <div className="text-md p-2 md:text-2xl">Join Us</div>
+          <div className="mt-4 text-sm p-2 md:text-md">We invite you to join us in our mission to enhance mental wellness. Whether you're a user eager to test our app and share your feedback or a psychologist interested in collaborating with us, your participation is invaluable.</div>
 
           {/* Buttons */}
           <button
@@ -183,7 +190,7 @@ const LandingPage = () => {
 
           {/* Text change based on selection */}
           {selectedRole && (
-            <div className="mt-4 text-md text-[#4C614E]">
+            <div className="mt-4 text-sm text-[#4C614E] md:text-md">
               <div className="bg-[#B4D2B6] p-3 rounded-3xl text-black">{text.split("\n").map((line, index) => (
                 <span key={index}>
                   {line}
@@ -245,6 +252,9 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
+
+
+
 
 
 
