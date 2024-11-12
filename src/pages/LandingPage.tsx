@@ -310,7 +310,6 @@ const LandingPage = () => {
                     </Button>
                   </div>
                 </form>
-
               </Form>
             </div>
           </div>
