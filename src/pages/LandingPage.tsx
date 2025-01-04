@@ -28,10 +28,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea"
-
-
+import React, { useRef } from 'react';
 import { emailOrPhonePattern } from "@/lib/regexPatterns";
 import JoinUs from "@/components/Joinus";
+import Footer from "@/components/Footer";
 
 
 
@@ -46,7 +46,6 @@ interface SolutionCardProps {
   title: string;
   description: string;
 }
-
 const SolutionCard: React.FC<SolutionCardProps> = ({ imgSrc, title, description }) => (
   <div className="w-full mt-6 bg-[#D8EDD4] hover:bg-[#C2D8BE] rounded-3xl p-4 md:p-8 md:mt-10">
     <div className="flex flex-col justify-items-center justify-center">
@@ -58,7 +57,6 @@ const SolutionCard: React.FC<SolutionCardProps> = ({ imgSrc, title, description 
     </div>
   </div>
 );
-
 const LandingPage = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -79,9 +77,6 @@ const LandingPage = () => {
   const handleSignup = () => {
     navigate("/auth", { state: { isLogin: "signup" } });
   };
-
-  
-
 
   const images = [image1, image2, image3];
 
@@ -118,6 +113,14 @@ const LandingPage = () => {
     },
   ];
 
+  const joinUsRef = useRef<HTMLDivElement>(null);
+    const scrollToJoinUs = () => {
+      if (joinUsRef.current) {
+        joinUsRef.current.scrollIntoView({
+          behavior: 'smooth',
+        });
+      }
+    };
   return (
     <div className=" flex justify-between items-center space-x-2">
 
@@ -131,8 +134,10 @@ const LandingPage = () => {
         </div>
 
         {/* Carousel Section */}
-        <div>
-          <ImageCarousel images={images} texts={texts} />
+
+        <div id="home">
+          <div id='homeFooter'></div>
+          <ImageCarousel images={images} texts={texts} />     
         </div>
 
         {/* Launching Soon Section */}
@@ -150,15 +155,19 @@ const LandingPage = () => {
               <img src={decoration1} className="w-20 h-20" alt="Decoration" />
               <p className="text-xs">In the meantime follow us on</p>
               <div className="flex space-x-4">
+              <a href="https://www.instagram.com/souloxy_wellness/" target="_blank">
                 <img src={instagramLogo} className="w-10 h-10 mt-6 " alt="Instagram" />
+              </a>
+              <a href="https://www.linkedin.com/company/souloxy" target="_blank">
                 <img src={linkedInLogo} className="w-10 h-9 mt-6" alt="LinkedIn" />
+              </a>
               </div>
             </div>
 
             <div className="w-[50%] mt-10 bg-[#F8F7F2] rounded-3xl p-2 py-6 md:p-6">
               <img src={decoration2} className="w-20 h-20" alt="Decoration" />
               <p className="text-xs">Want to make a difference?<br />Join us as an early app user or as a psychologist today!</p>
-              <button className="bg-[#B4D2B6] p-2 mt-4 rounded-3xl text-black text-xs md:py-2 md:px-6">Join us</button>
+              <button className="bg-[#B4D2B6] p-2 mt-4 rounded-3xl text-black text-xs md:py-2 md:px-6"onClick={scrollToJoinUs}>Join us</button>
             </div>
           </div>
         </div>
@@ -168,7 +177,8 @@ const LandingPage = () => {
 
 
         {/* Solutions Section */}
-        <div className="text-xl text-[#4C614E] text-center mt-14 md:text-3xl">
+        <div className="text-xl text-[#4C614E] text-center mt-14 md:text-3xl" id="solutions">
+          <div id='solutionsFooter'></div>
           <strong>Solutions</strong>
         </div>
 
@@ -179,7 +189,8 @@ const LandingPage = () => {
         </div>
 
         {/* About us */}
-        <div className="flex flex-col items-center md:m-12">
+        <div className="flex flex-col items-center md:m-12" id="AboutUs">
+          <div id='AboutUsFooter'></div>
           <div className="text-xl text-[#4C614E] text-center mt-14 md:text-3xl"><strong>About us</strong></div>
           <div className="text-[12px] text-[#4C614E] text-center mt-6 w-[80%] md:text-xl md:mt-10">Our mission is to help individuals lead a fulfilling life by fostering awareness and careof their mental well-being with the help of technology and science of psychology.</div>
           <div className="flex items-center justify-around mt-10 w-full gap-x-8 md:mt-16">
@@ -190,8 +201,10 @@ const LandingPage = () => {
         </div>
 
         {/* Join us Form as a user or psychologist */}
+        <div ref={joinUsRef} id="JoinUs">
+          <div id="JoinUsFooter"></div>
         <JoinUs />
-
+        </div>
 
         {/* Footer souloxy info */}
         <div className="flex flex-col md:flex-row justify-around">
@@ -209,19 +222,18 @@ const LandingPage = () => {
           {/* col 2 */}
           <div className="flex flex-col mt-10">
             <div className="flex flex-row items-center self-center md:flex-col md:justify-around  gap-4">
-
               <div className="text-[#4C614E] text-sm md:text-lg">
                 Quick Links
               </div>
-
-              <div className="text-[#4C614E] text-sm">Home</div>
-              <div className="text-[#4C614E] text-sm">Solutions</div>
-              <div className="text-[#4C614E] text-sm">About Us</div>
-              <div className="text-[#4C614E] text-sm">Join Us</div>
+              <Footer />
             </div>
             <div className="flex self-center justify-ceter ">
-              <img src={instagramLogo} className="w-10 h-10 mr-4 mt-6 " alt="Instagram" />
+            <a href="https://www.instagram.com/souloxy_wellness/" target="_blank">
+              <img src={instagramLogo} className="w-10 h-10 mr-4 mt-6 " alt="Instagram" />  
+            </a>  
+            <a href="https://www.linkedin.com/company/souloxy" target="_blank">        
               <img src={linkedInLogo} className="w-10 h-9 mt-6 " alt="LinkedIn" />
+            </a>
             </div>
           </div>
           {/* col 3 */}
